@@ -1,0 +1,20 @@
+name: Trigger Read the Docs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+
+jobs:
+  trigger-rtd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger RTD
+        run: |
+          curl -X POST \
+            -d "branches=main" \
+            -d "token=${{ secrets.RTD_WEBHOOK_TOKEN }}" \
+            ${{ secrets.RTD_WEBHOOK_URL }}
