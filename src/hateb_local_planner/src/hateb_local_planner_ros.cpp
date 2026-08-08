@@ -349,8 +349,11 @@ geometry_msgs::msg::TwistStamped HATebLocalPlannerROS::computeVelocityCommands(c
   auto my_checker = dynamic_cast<hateb_local_planner::HATEBGoalChecker*>(goal_checker);
   if (my_checker != nullptr) {
     my_checker->setGoalControl(goal_ctrl_);
+  } else {
+    RCLCPP_WARN_ONCE(logger_, "goal_checker is not a HATEBGoalChecker; goal_ctrl_ is inert and goal checking falls back to the configured checker");
   }
-  if (!goal_reached_ && my_checker->isGoalReached(pose.pose, global_goal.pose, velocity)) {
+  if (!goal_reached_ && (my_checker != nullptr ? my_checker->isGoalReached(pose.pose, global_goal.pose, velocity)
+                                               : goal_checker->isGoalReached(pose.pose, global_goal.pose, velocity))) {
     goal_reached_ = true;  // prevent multiple calls
     onGoalReached();
     return cmd_vel;
