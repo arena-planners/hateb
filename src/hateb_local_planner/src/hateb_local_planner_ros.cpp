@@ -1345,11 +1345,7 @@ void HATebLocalPlannerROS::updateObstacleContainerWithInvHumans() {
       obstacle_to_map_eig = tf2::transformToEigen(obstacle_to_map);
 
       geometry_msgs::msg::TransformStamped transform_stamped;
-      std::string base_link = "base_link";
-      if (!cfg_->ns.empty()) {
-        base_link = cfg_->ns + "/" + base_link;
-      }
-      transform_stamped = tf_->lookupTransform("map", base_link, tf2::TimePointZero, tf2::durationFromSec(0.5));
+      transform_stamped = tf_->lookupTransform(global_frame_, cfg_->base_frame, tf2::TimePointZero, tf2::durationFromSec(0.5));
 
       robot_x = transform_stamped.transform.translation.x;
       robot_y = transform_stamped.transform.translation.y;

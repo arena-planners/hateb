@@ -74,9 +74,6 @@ void Agents::trackedAgentsCB(const cohan_msgs::msg::TrackedAgents::SharedPtr tra
 
   geometry_msgs::msg::TransformStamped transform_stamped;
   auto base_link = cfg_->base_frame;
-  if (!cfg_->ns.empty()) {
-    base_link = cfg_->ns + "/" + base_link;
-  }
 
   // Get the robot pose
   try {
