@@ -621,12 +621,7 @@ void TebVisualization::publishMode(int mode) {
   bool transform_found = false;
   geometry_msgs::msg::TransformStamped robot_to_map_tr;
   try {
-    std::string base = "base_link";
-    if (!ns_.empty()) {
-      base = ns_ + "/" + base;
-    }
-
-    robot_to_map_tr = tf_->lookupTransform("map", base, tf2::TimePointZero, tf2::durationFromSec(0.1));
+    robot_to_map_tr = tf_->lookupTransform("map", cfg_->base_frame, tf2::TimePointZero);
     transform_found = true;
 
   } catch (tf2::LookupException& ex) {
